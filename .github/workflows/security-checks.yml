@@ -1,0 +1,58 @@
+name: Security checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: cloudfunctions/*/package-lock.json
+
+      - name: Validate JavaScript syntax
+        run: find cloudfunctions miniprogram -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Validate JSON files
+        run: find . -type f -name '*.json' -not -path './.git/*' -print0 | xargs -0 -n1 jq empty
+
+      - name: Verify cloud function lockfiles
+        shell: bash
+        run: |
+          set -euo pipefail
+          for manifest in cloudfunctions/*/package.json; do
+            function_dir="${manifest%/package.json}"
+            jq -e '
+              .packages[""].dependencies["wx-server-sdk"] == "4.0.2" and
+              .packages[""].dependencies.ws == "8.21.1" and
+              .packages["node_modules/wx-server-sdk"].version == "4.0.2" and
+              .packages["node_modules/ws"].version == "8.21.1"
+            ' "$function_dir/package-lock.json" >/dev/null
+          done
+
+      - name: Smoke-test CloudBase SDK
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund --prefix cloudfunctions/login
+          node - <<'NODE'
+          const cloud = require('./cloudfunctions/login/node_modules/wx-server-sdk');
+          cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
+          const db = cloud.database();
+          if (!db || !db.command || typeof cloud.getWXContext !== 'function') {
+            throw new Error('wx-server-sdk initialization failed');
+          }
+          NODE

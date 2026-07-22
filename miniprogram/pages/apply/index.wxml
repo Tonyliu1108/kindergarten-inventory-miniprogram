@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="card">
+    <view class="title">申请开通账号</view>
+    <view class="desc">
+      当前微信账号还未开通权限。请填写姓名后提交申请，等待管理员审核。
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">姓名</view>
+      <input
+        class="input"
+        placeholder="请输入姓名，最多10个字"
+        maxlength="10"
+        value="{{name}}"
+        bindinput="onNameInput"
+      />
+    </view>
+
+    <button
+      class="submit-btn"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+      bindtap="submitApplication"
+    >
+      提交申请
+    </button>
+  </view>
+</view>

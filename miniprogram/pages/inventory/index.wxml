@@ -1,0 +1,218 @@
+<view class="page">
+  <view class="header">
+    <view class="title">库存列表</view>
+    <view class="subtitle">幼儿园库存管理</view>
+
+    <view wx:if="{{currentUser}}" class="user-info">
+      当前用户：{{currentUser.name}}
+    </view>
+
+    <view wx:if="{{currentUser && currentUser.role === 'teacher'}}" class="user-info">
+      老师可查看库存，并提交出库、换码操作；记录页仅查看自己的操作记录。
+    </view>
+
+    <view wx:if="{{loginChecked && !currentUser && !loadError}}" class="user-info warning-user">
+      当前账号未开通
+    </view>
+  </view>
+
+  <view wx:if="{{loginChecked && !currentUser && loadError}}" class="empty">
+    <view>库存加载失败</view>
+    <button class="retry-btn" size="mini" bindtap="retryLoadInventory">重试</button>
+  </view>
+
+  <view wx:elif="{{loginChecked && !currentUser}}" class="register-panel">
+    <view class="register-title">账号暂未开通</view>
+    <view class="register-desc">请先提交账号申请，管理员审核通过后即可查看库存。</view>
+    <button class="apply-btn" bindtap="goApply">
+      申请账号
+    </button>
+  </view>
+
+  <view wx:if="{{currentUser}}" class="search-box">
+    <input
+      class="search-input"
+      placeholder="搜索物品名称 / 尺码 / 分类"
+      value="{{keyword}}"
+      maxlength="20"
+      bindinput="onSearchInput"
+    />
+    <text wx:if="{{keyword}}" class="clear" bindtap="clearSearch">清空</text>
+  </view>
+
+  <view wx:if="{{currentUser}}" class="top-actions">
+    <button class="records-btn" bindtap="goRecords">
+      查看出入库记录
+    </button>
+    <button
+    wx:if="{{currentUser && currentUser.role === 'admin'}}"
+    class="warning-btn"
+    bindtap="goWarnings"
+    >
+      库存预警
+    </button>
+    <button
+      wx:if="{{currentUser && currentUser.role === 'admin'}}"
+      class="items-btn"
+      bindtap="goItems"
+    >
+      物品管理
+    </button>
+    <button
+      wx:if="{{currentUser && currentUser.role === 'admin'}}"
+      class="export-inventory-btn"
+      loading="{{exportingInventory}}"
+      disabled="{{exportingInventory || loading}}"
+      bindtap="exportInventoryExcel"
+    >
+      导出库存总览
+    </button>
+
+  </view>
+
+  <view wx:if="{{currentUser && currentUser.role === 'admin'}}" class="inventory-export-filter">
+    <view class="filter-row">
+      <text class="filter-label">导出时间段</text>
+      <picker
+        mode="selector"
+        range="{{inventoryExportDateList}}"
+        value="{{inventoryExportDateIndex}}"
+        bindchange="onInventoryExportDateChange"
+      >
+        <view class="filter-picker">{{inventoryExportDateList[inventoryExportDateIndex]}}</view>
+      </picker>
+    </view>
+
+    <view wx:if="{{inventoryExportDateValueList[inventoryExportDateIndex] === 'custom'}}" class="custom-date-row">
+      <picker
+        mode="date"
+        value="{{inventoryExportStartDate}}"
+        end="{{todayDate}}"
+        bindchange="onInventoryExportStartDateChange"
+      >
+        <view class="date-picker">{{inventoryExportStartDate || '开始日期'}}</view>
+      </picker>
+      <text class="date-separator">至</text>
+      <picker
+        mode="date"
+        value="{{inventoryExportEndDate}}"
+        end="{{todayDate}}"
+        bindchange="onInventoryExportEndDateChange"
+      >
+        <view class="date-picker">{{inventoryExportEndDate || '结束日期'}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view wx:if="{{currentUser && loading}}" class="loading">
+    正在加载库存...
+  </view>
+
+  <view wx:elif="{{currentUser && loadError && displayList.length === 0}}" class="empty">
+    <view>库存加载失败</view>
+    <button class="retry-btn" size="mini" bindtap="retryLoadInventory">重试</button>
+  </view>
+  
+  <view wx:elif="{{currentUser && displayList.length === 0}}" class="empty">
+    <view>{{keyword ? '当前已加载库存暂无匹配' : '暂无库存数据'}}</view>
+    <button
+      wx:if="{{keyword && hasMore}}"
+      class="retry-btn"
+      size="mini"
+      bindtap="loadMoreInventory"
+    >
+      继续加载更多
+    </button>
+  </view>
+  
+  <view wx:elif="{{currentUser}}" class="list">
+    <block wx:for="{{displayList}}" wx:key="_id">
+      <view class="card">
+        <view class="card-top">
+          <view class="item-name">{{item.itemName}}</view>
+          <view class="tag">{{item.category}}</view>
+        </view>
+
+        <view class="info-row">
+          <text class="label">尺码</text>
+          <text class="value">{{item.size}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">库存</text>
+          <text class="stock {{item.stock <= item.safetyStock ? 'warning' : ''}}">
+            {{item.stock}}{{item.unit}}
+          </text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">安全库存</text>
+          <text class="value">{{item.safetyStock}}{{item.unit}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">位置</text>
+          <text class="value">{{item.location}}</text>
+        </view>
+
+        <view wx:if="{{item.stock <= item.safetyStock}}" class="warning-text">
+          库存不足，请注意补货
+        </view>
+
+        <view class="card-actions">
+          <button
+            wx:if="{{currentUser && currentUser.role === 'admin'}}"
+            class="in-btn action-btn"
+            size="mini"
+            hover-class="none"
+            catchtap="goInbound"
+            data-id="{{item._id}}"
+          >
+            入库
+          </button>
+
+          <button
+            wx:if="{{currentUser}}"
+            class="exchange-btn action-btn"
+            size="mini"
+            hover-class="none"
+            catchtap="goExchange"
+            data-id="{{item._id}}"
+          >
+            换码
+          </button>
+
+          <button
+            wx:if="{{currentUser}}"
+            class="out-btn action-btn"
+            size="mini"
+            hover-class="none"
+            catchtap="goOutbound"
+            data-id="{{item._id}}"
+          >
+            出库
+          </button>
+
+          <button
+            wx:if="{{currentUser && currentUser.role === 'admin'}}"
+            class="check-btn action-btn"
+            size="mini"
+            hover-class="none"
+            catchtap="goStocktake"
+            data-id="{{item._id}}"
+          >
+            盘点
+          </button>
+        </view>
+      </view>
+    </block>
+
+    <view wx:if="{{loadingMore}}" class="load-more">
+      正在加载更多...
+    </view>
+
+    <view wx:elif="{{!hasMore}}" class="load-more">
+      已显示全部库存
+    </view>
+  </view>
+</view>

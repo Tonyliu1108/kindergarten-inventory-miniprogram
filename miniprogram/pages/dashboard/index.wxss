@@ -1,0 +1,224 @@
+.page {
+  min-height: 100vh;
+  background: #f6f7f9;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 28rpx;
+}
+
+.title {
+  font-size: 46rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.subtitle {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.user-info {
+  margin-top: 14rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.warning-user {
+  color: #e64340;
+}
+
+.loading {
+  text-align: center;
+  color: #999;
+  margin-top: 120rpx;
+  font-size: 28rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 22rpx;
+  padding: 28rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: #888;
+}
+
+.stat-value {
+  margin-top: 18rpx;
+  font-size: 52rpx;
+  font-weight: 700;
+}
+
+.stat-unit {
+  margin-top: 4rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.blue {
+  color: #2f7dff;
+}
+
+.green {
+  color: #1a9b5c;
+}
+
+.orange {
+  color: #f39c12;
+}
+
+.dark {
+  color: #333;
+}
+
+.warning-card,
+.application-card {
+  background: #fff;
+  border-radius: 22rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.warning-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.warning-desc {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.warning-number {
+  font-size: 46rpx;
+  font-weight: 700;
+  color: #e64340;
+}
+
+.application-number {
+  font-size: 46rpx;
+  font-weight: 700;
+  color: #f39c12;
+}
+
+.section-title {
+  margin-top: 36rpx;
+  margin-bottom: 20rpx;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.quick-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18rpx;
+}
+
+.quick-btn {
+  width: calc(50% - 9rpx);
+  height: 96rpx;
+  border-radius: 999rpx;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1.2;
+  box-sizing: border-box;
+}
+
+.quick-btn::after {
+  border: none;
+}
+
+.quick-btn.inventory {
+  background: #2f7dff;
+}
+
+.quick-btn.records {
+  background: #1a9b5c;
+}
+
+.quick-btn.warnings {
+  background: #e64340;
+}
+
+.quick-btn.items {
+  background: #f39c12;
+}
+
+.quick-btn.purchase {
+  background: #7a5cff;
+}
+
+.quick-btn.users {
+  background: #333;
+}
+
+.role-tip {
+  margin-top: 14rpx;
+  padding: 16rpx 20rpx;
+  border-radius: 14rpx;
+  font-size: 25rpx;
+  line-height: 1.5;
+}
+
+.admin-tip {
+  color: #b26a00;
+  background: #fff5e6;
+}
+
+.teacher-tip {
+  color: #2f7dff;
+  background: #eef5ff;
+}
+
+.register-panel {
+  margin-top: 28rpx;
+  padding: 36rpx 28rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  text-align: center;
+}
+
+.register-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 14rpx;
+}
+
+.register-desc {
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 28rpx;
+}
+
+.register-btn {
+  width: 100%;
+}

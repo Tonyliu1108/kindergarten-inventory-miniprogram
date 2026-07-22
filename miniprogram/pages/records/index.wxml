@@ -1,0 +1,150 @@
+<view class="page">
+  <view class="header">
+    <view class="title">出入库记录</view>
+    <view class="subtitle">
+      {{currentUser && currentUser.role === 'admin' ? '管理员可查看全部记录' : '仅显示我的记录'}}
+    </view>
+  </view>
+
+  <view class="filter-card">
+    <view class="search-box">
+      <input
+        class="search-input"
+        placeholder="搜索物品 / 尺码 / 操作人 / 原因"
+        value="{{keyword}}"
+        maxlength="20"
+        bindinput="onSearchInput"
+      />
+      <text wx:if="{{keyword}}" class="clear" bindtap="clearSearch">清空</text>
+    </view>
+
+    <picker
+      mode="selector"
+      range="{{typeList}}"
+      value="{{typeIndex}}"
+      bindchange="onTypeChange"
+    >
+      <view class="picker">
+        记录类型：{{typeList[typeIndex]}}
+      </view>
+    </picker>
+
+    <view class="date-filter">
+      <block wx:for="{{dateList}}" wx:key="index">
+        <view
+          class="date-item {{dateIndex === index ? 'active' : ''}}"
+          data-index="{{index}}"
+          bindtap="onDateChange"
+        >
+          {{item}}
+        </view>
+      </block>
+    </view>
+
+    <view wx:if="{{dateValueList[dateIndex] === 'custom'}}" class="custom-date-row">
+      <picker
+        mode="date"
+        value="{{customStartDate}}"
+        end="{{todayDate}}"
+        bindchange="onCustomStartDateChange"
+      >
+        <view class="date-picker">{{customStartDate || '开始日期'}}</view>
+      </picker>
+      <text class="date-separator">至</text>
+      <picker
+        mode="date"
+        value="{{customEndDate}}"
+        end="{{todayDate}}"
+        bindchange="onCustomEndDateChange"
+      >
+        <view class="date-picker">{{customEndDate || '结束日期'}}</view>
+      </picker>
+    </view>
+
+    <button
+      wx:if="{{currentUser}}"
+      class="export-btn"
+      loading="{{exporting}}"
+      disabled="{{exporting || loading}}"
+      bindtap="exportExcel"
+    >
+      导出Excel
+    </button>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">
+    正在加载记录...
+  </view>
+
+  <view wx:elif="{{displayRecords.length === 0}}" class="empty">
+    暂无记录
+  </view>
+
+  <view wx:else class="record-list">
+    <block wx:for="{{displayRecords}}" wx:key="_id">
+      <view class="record-card">
+        <view class="record-top">
+          <view class="item-name">{{item.itemName}}</view>
+
+          <view
+            class="type-tag {{item.typeClass}}"
+          >
+            {{item.typeText}}
+          </view>
+        </view>
+
+        <view class="info-row">
+          <text class="label">分类</text>
+          <text class="value">{{item.category}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">尺码</text>
+          <text class="value">{{item.size}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">数量</text>
+          <text class="value strong">{{item.quantity}}{{item.unit}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">操作人</text>
+          <text class="value">{{item.operatorName}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">原因</text>
+          <text class="value">{{item.reason}}</text>
+        </view>
+
+        <view wx:if="{{item.remark}}" class="info-row">
+          <text class="label">备注</text>
+          <text class="value remark">{{item.remark}}</text>
+        </view>
+
+        <view wx:if="{{item.displayType === 'exchange'}}" class="stock-change">
+          <view>旧尺码库存：{{item.oldBeforeStock}}{{item.unit}} → {{item.oldAfterStock}}{{item.unit}}</view>
+          <view>新尺码库存：{{item.newBeforeStock}}{{item.unit}} → {{item.newAfterStock}}{{item.unit}}</view>
+        </view>
+
+        <view wx:elif="{{item.displayType === 'add'}}" class="stock-change add-change">
+          新增库存：{{item.beforeStock}}{{item.unit}} → {{item.afterStock}}{{item.unit}}
+        </view>
+
+        <view wx:elif="{{item.displayType === 'adjust'}}" class="stock-change">
+          <view>盘点调整：{{item.beforeStock}}{{item.unit}} → {{item.afterStock}}{{item.unit}}</view>
+          <view>差异：{{item.adjustQuantity > 0 ? '+' : ''}}{{item.adjustQuantity}}{{item.unit}}</view>
+        </view>
+
+        <view wx:else class="stock-change">
+          库存变化：{{item.beforeStock}}{{item.unit}} → {{item.afterStock}}{{item.unit}}
+        </view>
+
+        <view class="time">
+          {{item.timeText}}
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,129 @@
+<view class="page">
+  <view class="header">
+    <view class="title">采购清单</view>
+    <view class="subtitle">采购单、送货单、购买凭证图片留档</view>
+  </view>
+
+  <view wx:if="{{loading && receipts.length === 0}}" class="loading">
+    正在加载采购清单...
+  </view>
+
+  <view wx:if="{{accessChecked && currentUser && currentUser.role === 'admin'}}">
+    <view class="upload-card">
+      <view class="section-title">上传采购清单</view>
+
+      <view class="image-picker" bindtap="chooseReceiptImage">
+        <image wx:if="{{selectedImagePath}}" class="selected-image" src="{{selectedImagePath}}" mode="aspectFill" />
+        <view wx:else class="picker-placeholder">
+          <view class="picker-title">选择图片 / 拍照上传</view>
+          <view class="picker-desc">支持相册选择或手机拍照</view>
+        </view>
+      </view>
+
+      <view wx:if="{{selectedImagePath}}" class="selected-row">
+        <text class="selected-name">{{selectedFileName}}</text>
+        <text class="clear-selected" bindtap="clearSelectedImage">移除</text>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">购买日期</view>
+        <picker mode="date" value="{{purchaseDate}}" bindchange="onPurchaseDateChange">
+          <view class="input picker-input">{{purchaseDate || '请选择购买日期'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">供应商 / 商家</view>
+        <input
+          class="input"
+          placeholder="例如：某某文具店"
+          maxlength="40"
+          value="{{supplier}}"
+          bindinput="onSupplierInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">备注</view>
+        <textarea
+          class="textarea"
+          placeholder="填写采购说明或备注"
+          maxlength="200"
+          value="{{remark}}"
+          bindinput="onRemarkInput"
+        />
+      </view>
+
+      <button
+        class="upload-btn"
+        loading="{{uploading}}"
+        disabled="{{uploading}}"
+        bindtap="submitReceipt"
+      >
+        确认上传
+      </button>
+    </view>
+
+    <view class="section-title list-title">已上传清单</view>
+
+    <view wx:if="{{loading && receipts.length > 0}}" class="inline-loading">
+      正在刷新...
+    </view>
+
+    <view wx:elif="{{receipts.length === 0}}" class="empty">
+      暂无采购清单
+    </view>
+
+    <view wx:else class="receipt-list">
+      <block wx:for="{{receipts}}" wx:key="_id">
+        <view class="receipt-card">
+          <image
+            class="thumb"
+            src="{{item.previewUrl}}"
+            mode="aspectFill"
+            bindtap="previewImage"
+            data-url="{{item.previewUrl}}"
+          />
+
+          <view class="receipt-content">
+            <view class="receipt-title">{{item.supplierText}}</view>
+            <view class="info-row">
+              <text class="label">购买日期</text>
+              <text class="value">{{item.purchaseDateText}}</text>
+            </view>
+            <view class="info-row">
+              <text class="label">上传时间</text>
+              <text class="value">{{item.createdAtText}}</text>
+            </view>
+            <view class="info-row">
+              <text class="label">上传人</text>
+              <text class="value">{{item.uploadedByName}}</text>
+            </view>
+            <view class="remark">备注：{{item.remarkText}}</view>
+
+            <view class="actions">
+              <button
+                class="preview-btn"
+                size="mini"
+                hover-class="none"
+                bindtap="previewImage"
+                data-url="{{item.previewUrl}}"
+              >
+                预览
+              </button>
+              <button
+                class="delete-btn"
+                size="mini"
+                hover-class="none"
+                bindtap="deleteReceipt"
+                data-id="{{item._id}}"
+              >
+                删除
+              </button>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

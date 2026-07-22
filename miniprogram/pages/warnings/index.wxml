@@ -1,0 +1,46 @@
+<view class="page">
+  <view class="header">
+    <view class="title">库存预警</view>
+    <view class="subtitle">查看库存不足或库存偏低的物品</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">
+    正在加载预警...
+  </view>
+
+  <view wx:elif="{{warningList.length === 0}}" class="empty">
+    当前没有库存预警
+  </view>
+
+  <view wx:else class="list">
+    <block wx:for="{{warningList}}" wx:key="_id">
+      <view class="card">
+        <view class="card-top">
+          <view>
+            <view class="item-name">{{item.itemName}}</view>
+            <view class="sub-text">{{item.category}} / {{item.size}}</view>
+          </view>
+
+          <view class="warning-tag {{item.warningClass}}">
+            {{item.warningText}}
+          </view>
+        </view>
+
+        <view class="info-row">
+          <text class="label">当前库存</text>
+          <text class="stock {{item.warningClass}}">{{item.stock}}{{item.unit}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">安全库存</text>
+          <text class="value">{{item.safetyStock}}{{item.unit}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">位置</text>
+          <text class="value">{{item.location}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

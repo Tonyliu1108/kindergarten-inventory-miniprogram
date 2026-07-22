@@ -1,0 +1,269 @@
+<view class="page">
+  <view class="header">
+    <view class="title">物品管理</view>
+    <view class="subtitle">新增、编辑、启用或停用仓库物品</view>
+  </view>
+
+  <view class="top-action-card">
+    <button
+      class="show-add-btn"
+      hover-class="none"
+      catchtap="showAddForm"
+    >
+      新增物品
+    </button>
+  </view>
+
+  <view wx:if="{{showSkuForm || editMode}}" class="add-card">
+    <view class="form-header">
+      <view class="section-title">
+        {{editMode ? '编辑物品' : '新增物品'}}
+      </view>
+
+      <button
+        class="cancel-btn"
+        size="mini"
+        hover-class="none"
+        bindtap="cancelEdit"
+      >
+        取消
+      </button>
+    </view>
+
+    <view wx:if="{{editMode}}" class="edit-tip">
+      当前正在编辑物品基础信息。库存数量不能在这里直接修改，请通过入库、出库、换码或盘点调整。
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">物品名称</view>
+      <input
+        class="input"
+        placeholder="例如：夏季男学生礼服"
+        maxlength="30"
+        value="{{itemName}}"
+        bindinput="onItemNameInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">分类</view>
+      <input
+        class="input"
+        placeholder="例如：学生园服 / 教职工服 / 书包"
+        maxlength="20"
+        value="{{category}}"
+        bindinput="onCategoryInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">尺码 / 规格</view>
+      <input
+        class="input"
+        placeholder="例如：100 / S / 蓝色 / 一年级"
+        maxlength="20"
+        value="{{size}}"
+        bindinput="onSizeInput"
+      />
+    </view>
+
+    <view wx:if="{{!editMode}}" class="two-col">
+      <view class="form-item half">
+        <view class="form-label">库存数量</view>
+        <input
+          class="input"
+          type="number"
+          placeholder="例如：30"
+          maxlength="5"
+          value="{{stock}}"
+          bindinput="onStockInput"
+        />
+      </view>
+
+      <view class="form-item half">
+        <view class="form-label">安全库存</view>
+        <input
+          class="input"
+          type="number"
+          placeholder="例如：5"
+          maxlength="5"
+          value="{{safetyStock}}"
+          bindinput="onSafetyStockInput"
+        />
+      </view>
+    </view>
+
+    <view wx:else class="two-col">
+      <view class="form-item half">
+        <view class="form-label">当前库存</view>
+        <view class="readonly-input">{{stock}}{{unit}}</view>
+      </view>
+
+      <view class="form-item half">
+        <view class="form-label">安全库存</view>
+        <input
+          class="input"
+          type="number"
+          placeholder="例如：5"
+          maxlength="5"
+          value="{{safetyStock}}"
+          bindinput="onSafetyStockInput"
+        />
+      </view>
+    </view>
+
+    <view class="two-col">
+      <view class="form-item half">
+        <view class="form-label">单位</view>
+        <input
+          class="input"
+          placeholder="例如：套 / 件 / 本"
+          maxlength="10"
+          value="{{unit}}"
+          bindinput="onUnitInput"
+        />
+      </view>
+
+      <view class="form-item half">
+        <view class="form-label">位置</view>
+        <input
+          class="input"
+          placeholder="例如：仓库A柜"
+          maxlength="20"
+          value="{{location}}"
+          bindinput="onLocationInput"
+        />
+      </view>
+    </view>
+
+    <view wx:if="{{!editMode}}" class="form-item">
+      <view class="form-label">
+        采购清单 / 送货单凭证<text class="required-star">*</text>
+      </view>
+      <view class="receipt-tip">新增物品前必须拍照或从相册上传采购清单。</view>
+
+      <view wx:if="{{receiptTempFilePath}}" class="receipt-preview">
+        <image
+          class="receipt-image"
+          src="{{receiptTempFilePath}}"
+          mode="aspectFill"
+          bindtap="previewReceiptImage"
+        />
+        <view class="receipt-status">
+          {{receiptFileID ? '已上传' : '上传中...'}}
+        </view>
+        <button
+          class="receipt-remove"
+          disabled="{{receiptUploading || adding || editing}}"
+          bindtap="removeReceiptImage"
+        >
+          删除重选
+        </button>
+      </view>
+
+      <button
+        wx:else
+        class="receipt-upload-btn"
+        loading="{{receiptUploading}}"
+        disabled="{{receiptUploading || adding || editing}}"
+        bindtap="chooseReceiptImage"
+      >
+        拍照 / 选择图片
+      </button>
+    </view>
+
+    <button
+      class="{{editMode ? 'save-btn' : 'add-btn'}}"
+      loading="{{adding || editing}}"
+      disabled="{{adding || editing || receiptUploading}}"
+      bindtap="submitSku"
+    >
+      {{editMode ? '保存修改' : '确认新增'}}
+    </button>
+  </view>
+
+  <view class="search-box">
+    <input
+      placeholder="搜索物品名称 / 分类 / 尺码 / 位置"
+      value="{{keyword}}"
+      maxlength="20"
+      bindinput="onSearchInput"
+    />
+    <text wx:if="{{keyword}}" class="clear" bindtap="clearSearch">清空</text>
+  </view>
+
+  <view class="section-title list-title">物品列表</view>
+
+  <view wx:if="{{loading}}" class="loading">
+    正在加载物品...
+  </view>
+
+  <view wx:elif="{{displayItems.length === 0}}" class="empty">
+    暂无物品
+  </view>
+
+  <view wx:else class="item-list">
+    <block wx:for="{{displayItems}}" wx:key="_id">
+      <view class="item-card">
+        <view class="card-top">
+          <view>
+            <view class="item-name">{{item.itemName}}</view>
+            <view class="sub-text">{{item.category}} / {{item.size}}</view>
+          </view>
+
+          <view class="status-tag {{item.statusClass}}">
+            {{item.statusText}}
+          </view>
+        </view>
+
+        <view class="info-row">
+          <text class="label">库存</text>
+          <text class="stock">{{item.stock}}{{item.unit}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">安全库存</text>
+          <text class="value">{{item.safetyStock}}{{item.unit}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">位置</text>
+          <text class="value">{{item.location}}</text>
+        </view>
+
+        <view class="actions">
+          <button
+            class="edit-btn"
+            size="mini"
+            hover-class="none"
+            catchtap="startEditSku"
+            data-id="{{item._id}}"
+          >
+            编辑
+          </button>
+
+          <button
+            class="{{item.status === 'active' ? 'disable-btn' : 'enable-btn'}}"
+            size="mini"
+            hover-class="none"
+            catchtap="toggleSkuStatus"
+            data-id="{{item._id}}"
+            data-status="{{item.status}}"
+          >
+            {{item.status === 'active' ? '停用物品' : '启用物品'}}
+          </button>
+
+          <button
+            class="delete-btn"
+            size="mini"
+            hover-class="none"
+            catchtap="deleteSku"
+            data-id="{{item._id}}"
+          >
+            删除
+          </button>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

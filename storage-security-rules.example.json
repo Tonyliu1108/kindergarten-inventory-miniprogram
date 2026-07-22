@@ -1,0 +1,4 @@
+{
+  "read": "auth != null && ((/^purchase_receipts\\//.test(resource.path) && resource.openid == auth.openid) || /^exports\\//.test(resource.path))",
+  "write": "auth != null && auth.loginType != 'ANONYMOUS' && resource.openid == auth.openid && /^purchase_receipts\\//.test(resource.path) && resource.size <= 10485760 && (/\\.jpg$/.test(resource.path) || /\\.jpeg$/.test(resource.path) || /\\.png$/.test(resource.path))"
+}

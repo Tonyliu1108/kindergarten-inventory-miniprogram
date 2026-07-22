@@ -1,0 +1,8 @@
+{
+  "*": {
+    "invoke": "auth.loginType != 'ANONYMOUS' && auth != null"
+  },
+  "cleanupTempPurchaseReceipts": {
+    "invoke": false
+  }
+}

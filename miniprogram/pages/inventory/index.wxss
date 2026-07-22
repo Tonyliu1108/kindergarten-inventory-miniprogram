@@ -1,0 +1,352 @@
+.page {
+  min-height: 100vh;
+  background: #f6f7f9;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 24rpx;
+}
+
+.title {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.subtitle {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.user-info {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.warning-user {
+  color: #e64340;
+}
+
+.register-panel {
+  margin-bottom: 24rpx;
+  padding: 32rpx 28rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  text-align: center;
+}
+
+.register-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.register-desc {
+  font-size: 26rpx;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 26rpx;
+}
+
+.apply-btn {
+  color: #fff;
+  background: #2f7dff;
+  border-radius: 12rpx;
+}
+
+.apply-btn::after {
+  border: none;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.clear {
+  font-size: 26rpx;
+  color: #2f7dff;
+  margin-left: 20rpx;
+}
+
+/* 顶部功能按钮：记录 / 物品管理 / 用户管理 /库存预警*/
+.top-actions {
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+/* 顶部功能按钮：查看记录 / 物品管理 /库存预警*/
+.records-btn,
+.warning-btn,
+.items-btn,
+.export-inventory-btn {
+  flex: 1;
+  min-width: 180rpx;
+  height: 96rpx;
+  padding: 0 16rpx;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1.25;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* 去掉微信 button 默认边框 */
+.records-btn::after,
+.warning-btn::after,
+.items-btn::after,
+.export-inventory-btn::after {
+  border: none;
+}
+
+.records-btn {
+  background: #2f7dff;
+}
+
+.warning-btn {
+  background: #e64340;
+}
+
+.items-btn {
+  background: #1a9b5c;
+}
+
+.export-inventory-btn {
+  background: #7a4bd8;
+}
+
+.inventory-export-filter {
+  margin: -8rpx 0 24rpx;
+  padding: 20rpx 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+}
+
+.filter-row,
+.custom-date-row {
+  display: flex;
+  align-items: center;
+}
+
+.filter-row {
+  justify-content: space-between;
+}
+
+.filter-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.filter-picker,
+.date-picker {
+  min-width: 180rpx;
+  height: 60rpx;
+  padding: 0 20rpx;
+  border-radius: 999rpx;
+  background: #f1f4f8;
+  color: #333;
+  font-size: 26rpx;
+  line-height: 60rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.custom-date-row {
+  margin-top: 16rpx;
+  justify-content: flex-end;
+  gap: 12rpx;
+}
+
+.date-picker {
+  min-width: 210rpx;
+}
+
+.date-separator {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.users-btn {
+  background: #f39c12;
+}
+
+.records-btn {
+  background: #2f7dff;
+}
+
+.items-btn {
+  background: #1a9b5c;
+}
+
+.users-btn {
+  background: #f39c12;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  color: #999;
+  margin-top: 80rpx;
+  font-size: 28rpx;
+}
+
+.retry-btn {
+  margin-top: 24rpx;
+  min-width: 160rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  color: #fff;
+  background: #2f7dff;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+}
+
+.retry-btn::after {
+  border: none;
+}
+
+.load-more {
+  padding: 8rpx 0 32rpx;
+  text-align: center;
+  color: #999;
+  font-size: 26rpx;
+}
+
+.card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.item-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #222;
+  max-width: 500rpx;
+}
+
+.tag {
+  font-size: 24rpx;
+  color: #2f7dff;
+  background: #eef5ff;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12rpx;
+  font-size: 28rpx;
+}
+
+.label {
+  color: #888;
+}
+
+.value {
+  color: #333;
+}
+
+.stock {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1a9b5c;
+}
+
+.stock.warning {
+  color: #e64340;
+}
+
+.warning-text {
+  margin-top: 18rpx;
+  padding: 14rpx;
+  background: #fff0f0;
+  color: #e64340;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+}
+
+/* 每张库存卡片里的入库 / 换码 / 出库按钮 */
+.card-actions {
+  margin-top: 24rpx;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.in-btn {
+  background: #2f7dff;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+
+.exchange-btn {
+  background: #f39c12;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+
+.out-btn {
+  background: #1a9b5c;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120rpx;
+  height: 64rpx;
+  line-height: 1;
+  font-size: 28rpx;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.check-btn {
+  background: #e64340;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}

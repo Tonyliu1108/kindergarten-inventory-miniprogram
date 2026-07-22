@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/dashboard/index",
+    "pages/inventory/index",
+    "pages/stocktake/index",
+    "pages/warnings/index",
+    "pages/items/index",
+    "pages/apply/index",
+    "pages/outbound/index",
+    "pages/inbound/index",
+    "pages/exchange/index",
+    "pages/purchaseReceipts/index",
+    "pages/records/index",
+    "pages/users/index"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "幼儿园库存管理",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

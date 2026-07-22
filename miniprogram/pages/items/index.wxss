@@ -1,0 +1,343 @@
+.page {
+  min-height: 100vh;
+  background: #f6f7f9;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 24rpx;
+}
+
+.title {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.subtitle {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.add-card,
+.item-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.list-title {
+  margin-top: 36rpx;
+  margin-bottom: 24rpx;
+}
+
+.cancel-btn {
+  background: #999;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 24rpx;
+}
+
+.cancel-btn::after {
+  border: none;
+}
+
+.edit-tip {
+  margin-bottom: 24rpx;
+  padding: 18rpx;
+  background: #fff5e6;
+  color: #b26a00;
+  border-radius: 14rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+}
+
+.form-item {
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.required-star {
+  color: #e54848;
+  margin-left: 6rpx;
+}
+
+.input,
+.readonly-input {
+  width: 100%;
+  height: 88rpx;
+  background: #f6f7f9;
+  border-radius: 14rpx;
+  padding: 20rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+}
+
+.readonly-input {
+  color: #888;
+  line-height: 48rpx;
+}
+
+.two-col {
+  display: flex;
+  gap: 20rpx;
+}
+
+.half {
+  flex: 1;
+}
+
+.add-btn,
+.save-btn {
+  margin-top: 24rpx;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+}
+
+.add-btn {
+  background: #2f7dff;
+}
+
+.save-btn {
+  background: #1a9b5c;
+}
+
+.add-btn[disabled],
+.save-btn[disabled] {
+  background: #9bbcff;
+  color: #fff;
+}
+
+.add-btn::after,
+.save-btn::after {
+  border: none;
+}
+
+.receipt-tip {
+  margin-bottom: 16rpx;
+  color: #888;
+  font-size: 24rpx;
+}
+
+.receipt-upload-btn,
+.receipt-remove {
+  margin: 0;
+  border-radius: 14rpx;
+  font-size: 28rpx;
+}
+
+.receipt-upload-btn {
+  background: #f0f7ff;
+  color: #2f7dff;
+  border: 2rpx dashed #9bbcff;
+}
+
+.receipt-upload-btn::after,
+.receipt-remove::after {
+  border: none;
+}
+
+.receipt-preview {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  background: #f6f7f9;
+  border-radius: 14rpx;
+  padding: 16rpx;
+}
+
+.receipt-image {
+  width: 136rpx;
+  height: 136rpx;
+  border-radius: 10rpx;
+  background: #e8ebf0;
+  flex-shrink: 0;
+}
+
+.receipt-status {
+  flex: 1;
+  color: #1a9b5c;
+  font-size: 26rpx;
+}
+
+.receipt-remove {
+  width: 160rpx;
+  line-height: 64rpx;
+  background: #fff;
+  color: #e54848;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  color: #999;
+  margin-top: 100rpx;
+  font-size: 28rpx;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.item-name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.sub-text {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.status-tag {
+  font-size: 24rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+.status-tag.active {
+  color: #1a9b5c;
+  background: #eaf8f1;
+}
+
+.status-tag.disabled {
+  color: #e64340;
+  background: #fff0f0;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  font-size: 28rpx;
+}
+
+.label {
+  color: #888;
+}
+
+.value {
+  color: #333;
+}
+
+.stock {
+  color: #1a9b5c;
+  font-weight: 700;
+}
+
+.actions {
+  margin-top: 26rpx;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.edit-btn {
+  background: #f39c12;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+
+.enable-btn {
+  background: #1a9b5c;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+
+.disable-btn {
+  background: #e64340;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+
+.edit-btn::after,
+.enable-btn::after,
+.disable-btn::after {
+  border: none;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.search-box input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.clear {
+  font-size: 26rpx;
+  color: #2f7dff;
+  margin-left: 20rpx;
+}
+
+.delete-btn {
+  background: #666;
+  color: #fff;
+  border-radius: 999rpx;
+  padding: 0 28rpx;
+}
+
+.delete-btn::after {
+  border: none;
+}
+
+.top-action-card {
+  margin-bottom: 24rpx;
+}
+
+.show-add-btn {
+  background: #2f7dff;
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  height: 88rpx;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show-add-btn::after {
+  border: none;
+}

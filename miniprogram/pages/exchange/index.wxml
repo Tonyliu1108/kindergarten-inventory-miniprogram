@@ -1,0 +1,98 @@
+<view class="page">
+  <view class="header">
+    <view class="title">换码登记</view>
+    <view class="subtitle">旧尺码退回仓库，新尺码出库</view>
+  </view>
+
+  <view wx:if="{{oldSku}}" class="card">
+    <view class="item-name">{{oldSku.itemName}}</view>
+
+    <view class="info-row">
+      <text class="label">分类</text>
+      <text class="value">{{oldSku.category}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="label">原尺码</text>
+      <text class="value">{{oldSku.size}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="label">原尺码当前库存</text>
+      <text class="stock">{{oldSku.stock}}{{oldSku.unit}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{oldSku}}" class="form-card">
+    <view class="form-item">
+      <view class="form-label">新尺码</view>
+
+      <picker
+        wx:if="{{newSkuLabelList.length > 0}}"
+        mode="selector"
+        range="{{newSkuLabelList}}"
+        value="{{newSkuIndex}}"
+        bindchange="onNewSkuChange"
+      >
+        <view class="picker">
+          {{newSkuLabelList[newSkuIndex]}}
+        </view>
+      </picker>
+
+      <view wx:else class="picker disabled">
+        暂无可换尺码
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">换码数量</view>
+      <input
+        class="input"
+        type="number"
+        value="{{quantity}}"
+        placeholder="请输入换码数量，单次最多200"
+        maxlength="3"
+        bindinput="onQuantityInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">换码原因</view>
+      <picker
+        mode="selector"
+        range="{{reasonList}}"
+        value="{{reasonIndex}}"
+        bindchange="onReasonChange"
+      >
+        <view class="picker">
+          {{reasonList[reasonIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">备注</view>
+      <textarea
+        class="textarea"
+        value="{{remark}}"
+        placeholder="例如：100码偏小，换110码"
+        bindinput="onRemarkInput"
+      />
+    </view>
+  </view>
+
+  <view wx:if="{{oldSku}}" class="submit-area">
+    <button
+      class="submit-btn"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+      bindtap="submitExchange"
+    >
+      确认换码
+    </button>
+  </view>
+
+  <view wx:else class="loading">
+    正在加载库存信息...
+  </view>
+</view>

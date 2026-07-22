@@ -1,0 +1,36 @@
+# Windows
+[Dd]esktop.ini
+Thumbs.db
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+
+# Node.js
+node_modules/
+project.private.config.json
+
+# Local WeChat Cloud configuration
+miniprogram/envList.js
+miniprogram/config.local.js
+
+# Environment variables and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+
+# Logs and temporary output
+*.log
+coverage/
+dist/
+build/

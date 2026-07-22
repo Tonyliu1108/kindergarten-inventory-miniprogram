@@ -1,0 +1,104 @@
+.page {
+  min-height: 100vh;
+  background: #f6f7f9;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 24rpx;
+}
+
+.title {
+  font-size: 42rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.subtitle {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  color: #999;
+  margin-top: 100rpx;
+  font-size: 28rpx;
+}
+
+.card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+
+.item-name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #222;
+}
+
+.sub-text {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #888;
+}
+
+.warning-tag {
+  font-size: 24rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+.warning-tag.danger {
+  color: #e64340;
+  background: #fff0f0;
+}
+
+.warning-tag.low {
+  color: #f39c12;
+  background: #fff5e6;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14rpx;
+  font-size: 28rpx;
+}
+
+.label {
+  color: #888;
+}
+
+.value {
+  color: #333;
+}
+
+.stock {
+  font-size: 34rpx;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.stock.danger {
+  color: #e64340;
+}
+
+.stock.low {
+  color: #f39c12;
+}

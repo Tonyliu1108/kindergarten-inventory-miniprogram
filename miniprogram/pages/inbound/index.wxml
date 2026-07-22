@@ -1,0 +1,119 @@
+<view class="page">
+  <view class="header">
+    <view class="title">入库登记</view>
+    <view class="subtitle">请选择入库数量、原因并提交</view>
+  </view>
+
+  <view wx:if="{{sku}}" class="card">
+    <view class="item-name">{{sku.itemName}}</view>
+
+    <view class="info-row">
+      <text class="label">分类</text>
+      <text class="value">{{sku.category}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="label">尺码</text>
+      <text class="value">{{sku.size}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="label">当前库存</text>
+      <text class="stock">{{sku.stock}}{{sku.unit}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="label">位置</text>
+      <text class="value">{{sku.location}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{sku}}" class="form-card">
+    <view class="form-item">
+      <view class="form-label">入库数量</view>
+      <input
+        class="input"
+        type="number"
+        value="{{quantity}}"
+        placeholder="请输入入库数量，单次最多200"
+        maxlength="5"
+        bindinput="onQuantityInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">入库原因</view>
+      <picker
+        mode="selector"
+        range="{{reasonList}}"
+        value="{{reasonIndex}}"
+        bindchange="onReasonChange"
+      >
+        <view class="picker">
+          {{reasonList[reasonIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">备注</view>
+      <textarea
+        class="textarea"
+        value="{{remark}}"
+        placeholder="例如：补货入库 / 退回入库 / 盘点调整说明"
+        bindinput="onRemarkInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">
+        采购清单 / 送货单凭证<text class="required-star">*</text>
+      </view>
+      <view class="receipt-tip">入库前必须拍照或从相册上传采购清单。</view>
+
+      <view wx:if="{{receiptTempFilePath}}" class="receipt-preview">
+        <image
+          class="receipt-image"
+          src="{{receiptTempFilePath}}"
+          mode="aspectFill"
+          bindtap="previewReceiptImage"
+        />
+        <view class="receipt-status">
+          {{receiptFileID ? '已上传' : '上传中...'}}
+        </view>
+        <button
+          class="receipt-remove"
+          disabled="{{receiptUploading || submitting}}"
+          bindtap="removeReceiptImage"
+        >
+          删除重选
+        </button>
+      </view>
+
+      <button
+        wx:else
+        class="receipt-upload-btn"
+        loading="{{receiptUploading}}"
+        disabled="{{receiptUploading || submitting}}"
+        bindtap="chooseReceiptImage"
+      >
+        拍照 / 选择图片
+      </button>
+    </view>
+  </view>
+
+  <view wx:if="{{sku}}" class="submit-area">
+    <button
+      class="submit-btn"
+      loading="{{submitting}}"
+      disabled="{{submitting || receiptUploading}}"
+      bindtap="submitInbound"
+    >
+      确认入库
+    </button>
+  </view>
+
+  <view wx:else class="loading">
+    正在加载库存信息...
+  </view>
+</view>

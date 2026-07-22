@@ -1,0 +1,116 @@
+<view class="page">
+  <view class="header">
+    <view class="title">仓库工作台</view>
+    <view class="subtitle">幼儿园库存管理</view>
+
+    <view wx:if="{{currentUser}}" class="user-info">
+      当前用户：{{currentUser.name}}｜{{currentUser.role === 'admin' ? '管理员' : '老师'}}
+    </view>
+
+    <view wx:if="{{!currentUser}}" class="user-info warning-user">
+      当前账号未开通
+    </view>
+
+    <view wx:if="{{currentUser && currentUser.role === 'admin'}}" class="role-tip admin-tip">
+      管理员可查看全园库存、全部出入库记录，并管理物品和用户。
+    </view>
+
+    <view wx:if="{{currentUser && currentUser.role === 'teacher'}}" class="role-tip teacher-tip">
+      老师可查看库存，并提交出库、换码操作；记录页仅查看自己的操作记录。
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">
+    正在加载数据...
+  </view>
+
+  <view wx:elif="{{currentUser}}">
+    <view class="stats-grid">
+      <view class="stat-card" bindtap="goTodayRecords" data-type="in">
+        <view class="stat-label">今日入库/新增</view>
+        <view class="stat-value blue">{{stats.todayInCount}}</view>
+        <view class="stat-unit">次</view>
+      </view>
+
+      <view class="stat-card" bindtap="goTodayRecords" data-type="out">
+        <view class="stat-label">今日出库</view>
+        <view class="stat-value green">{{stats.todayOutCount}}</view>
+        <view class="stat-unit">次</view>
+      </view>
+
+      <view class="stat-card" bindtap="goTodayRecords" data-type="exchange">
+        <view class="stat-label">今日换码</view>
+        <view class="stat-value orange">{{stats.todayExchangeCount}}</view>
+        <view class="stat-unit">次</view>
+      </view>
+
+      <view class="stat-card" bindtap="goItems">
+        <view class="stat-label">启用物品</view>
+        <view class="stat-value dark">{{stats.activeItemCount}}</view>
+        <view class="stat-unit">种</view>
+      </view>
+    </view>
+
+    <view class="warning-card" bindtap="goWarnings">
+      <view>
+        <view class="warning-title">库存预警</view>
+        <view class="warning-desc">
+          库存不足 {{stats.dangerCount}} 项，库存偏低 {{stats.warningCount}} 项，点击查看详情
+        </view>
+      </view>
+      <view class="warning-number">{{warningTotalCount}}</view>
+    </view>
+
+    <view
+      wx:if="{{currentUser && currentUser.role === 'admin'}}"
+      class="application-card"
+      bindtap="goUsers"
+    >
+      <view>
+        <view class="warning-title">待审核申请</view>
+        <view class="warning-desc">老师开通账号申请</view>
+      </view>
+      <view class="application-number">{{stats.pendingApplicationCount}}</view>
+    </view>
+
+    <view class="section-title">快捷入口</view>
+
+    <view class="quick-grid">
+      <button class="quick-btn inventory" bindtap="goInventory">
+        库存列表
+      </button>
+
+      <button class="quick-btn records" bindtap="goRecords">
+        出入库记录
+      </button>
+
+      <button class="quick-btn warnings" bindtap="goWarnings">
+        库存预警
+      </button>
+
+      <button
+        wx:if="{{currentUser && currentUser.role === 'admin'}}"
+        class="quick-btn items"
+        bindtap="goItems"
+      >
+        物品管理
+      </button>
+
+      <button
+        wx:if="{{currentUser && currentUser.role === 'admin'}}"
+        class="quick-btn users"
+        bindtap="goUsers"
+      >
+        用户管理
+      </button>
+    </view>
+  </view>
+
+  <view wx:else class="register-panel">
+    <view class="register-title">账号暂未开通</view>
+    <view class="register-desc">请先提交账号申请，管理员审核通过后即可使用库存、记录等功能。</view>
+    <button class="quick-btn inventory register-btn" bindtap="goApply">
+      申请账号
+    </button>
+  </view>
+</view>

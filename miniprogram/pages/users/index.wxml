@@ -1,0 +1,129 @@
+<view class="page">
+  <view class="header">
+    <view class="title">用户管理</view>
+    <view class="subtitle">审核老师申请，管理账号状态和角色</view>
+  </view>
+
+  <!-- 待审核申请 -->
+  <view class="application-section">
+    <view class="section-title">待审核申请</view>
+
+    <view wx:if="{{applicationLoading}}" class="loading small-loading">
+      正在加载申请...
+    </view>
+
+    <view wx:elif="{{applications.length === 0}}" class="empty small-empty">
+      暂无待审核申请
+    </view>
+
+    <view wx:else>
+      <block wx:for="{{applications}}" wx:key="_id">
+        <view class="application-card">
+          <view class="card-top">
+            <view>
+              <view class="user-name">{{item.name}}</view>
+              <view class="openid">申请账号：已绑定微信</view>
+            </view>
+
+            <view class="apply-tag">待审核</view>
+          </view>
+
+          <view class="info-row">
+            <text class="label">申请时间</text>
+            <text class="value">{{item.createdAtText}}</text>
+          </view>
+
+          <view class="apply-actions">
+            <button
+              class="reject-btn"
+              size="mini"
+              hover-class="none"
+              loading="{{reviewingId === item._id}}"
+              disabled="{{reviewingId === item._id}}"
+              bindtap="reviewApplication"
+              data-id="{{item._id}}"
+              data-action="reject"
+            >
+              拒绝
+            </button>
+
+            <button
+              class="approve-btn"
+              size="mini"
+              hover-class="none"
+              loading="{{reviewingId === item._id}}"
+              disabled="{{reviewingId === item._id}}"
+              bindtap="reviewApplication"
+              data-id="{{item._id}}"
+              data-action="approve"
+            >
+              通过
+            </button>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 账号列表 -->
+  <view class="section-title list-title">账号列表</view>
+
+  <view wx:if="{{loading}}" class="loading">
+    正在加载用户...
+  </view>
+
+  <view wx:elif="{{users.length === 0}}" class="empty">
+    暂无用户
+  </view>
+
+  <view wx:else class="user-list">
+    <block wx:for="{{users}}" wx:key="_id">
+      <view class="user-card">
+        <view class="card-top">
+          <view>
+            <view class="user-name">{{item.name}}</view>
+            <view class="openid">账号标识：已绑定微信</view>
+          </view>
+
+          <view class="role-tag {{item.role === 'admin' ? 'admin' : 'teacher'}}">
+            {{item.roleText}}
+          </view>
+        </view>
+
+        <view class="info-row">
+          <text class="label">账号状态</text>
+          <text class="status {{item.statusClass}}">{{item.statusText}}</text>
+        </view>
+
+        <view class="info-row">
+          <text class="label">创建时间</text>
+          <text class="value">{{item.createdAtText}}</text>
+        </view>
+
+        <view class="actions">
+          <button
+            class="role-btn"
+            size="mini"
+            hover-class="none"
+            bindtap="changeUserRole"
+            data-id="{{item._id}}"
+            data-role="{{item.role}}"
+          >
+            {{item.role === 'admin' ? '设为老师' : '设为管理员'}}
+          </button>
+
+          <button
+            class="{{item.status === 'active' ? 'disable-btn' : 'enable-btn'}}"
+            size="mini"
+            hover-class="none"
+            bindtap="toggleUserStatus"
+            data-id="{{item._id}}"
+            data-status="{{item.status}}"
+          >
+            {{item.status === 'active' ? '停用账号' : '启用账号'}}
+          </button>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
