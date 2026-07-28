@@ -51,6 +51,10 @@
 
 应用规则后请在测试环境验证登录、申请、库存操作、采购凭证预览和 Excel 导出。安全规则的具体语法及生效范围以腾讯云开发官方文档为准。
 
+完整的环境隔离、部署、权限、隐私、验收和回滚步骤见
+[真实环境上线检查清单](PRODUCTION_DEPLOYMENT_CHECKLIST.md)。清单中的人工验证完成前，
+不要将测试环境的构建直接发布到生产环境。
+
 ## 隐私与数据
 
 部署后会处理用户姓名、微信 openid、库存操作记录和管理员上传的采购凭证。正式发布前，请在微信公众平台按当前要求配置用户隐私保护指引，说明数据用途、保存期限和删除方式；开发、演示和 Issue 中不要使用真实人员或采购数据。删除采购凭证时，云函数会同时删除对应云存储文件并将数据库记录标记为已删除。
@@ -71,6 +75,7 @@ RESET_TEST_DATA_CONFIRMATION=<高强度随机口令>
 - 安全问题请参阅 [SECURITY.md](SECURITY.md)，不要在公开 Issue 中披露漏洞或凭据。
 - 参与开发请参阅 [CONTRIBUTING.md](CONTRIBUTING.md)。
 - 本次公开前审计结果及已知边界见 [SECURITY_AUDIT.md](SECURITY_AUDIT.md)。
+- 真实云环境发布前请逐项完成 [PRODUCTION_DEPLOYMENT_CHECKLIST.md](PRODUCTION_DEPLOYMENT_CHECKLIST.md)。
 
 ## 许可证
 
