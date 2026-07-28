@@ -38,21 +38,49 @@ jobs:
           for manifest in cloudfunctions/*/package.json; do
             function_dir="${manifest%/package.json}"
             jq -e '
+              .overrides["lodash.set"] == "npm:lodash@4.18.1"
+            ' "$manifest" >/dev/null
+            jq -e '
               .packages[""].dependencies["wx-server-sdk"] == "4.0.2" and
               .packages[""].dependencies.ws == "8.21.1" and
               .packages["node_modules/wx-server-sdk"].version == "4.0.2" and
-              .packages["node_modules/ws"].version == "8.21.1"
+              .packages["node_modules/ws"].version == "8.21.1" and
+              .packages["node_modules/@cloudbase/database/node_modules/lodash.set"].name == "lodash" and
+              .packages["node_modules/@cloudbase/database/node_modules/lodash.set"].version == "4.18.1"
             ' "$function_dir/package-lock.json" >/dev/null
           done
+
+      - name: Reject unsupported realtime database watch
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find cloudfunctions miniprogram -type f -name '*.js' -print0 |
+            xargs -0 -r grep -nE '\.watch[[:space:]]*\('; then
+            echo "CloudBase realtime watch requires a separate dependency review." >&2
+            exit 1
+          fi
 
       - name: Smoke-test CloudBase SDK
         run: |
           npm ci --ignore-scripts --no-audit --no-fund --prefix cloudfunctions/login
           node - <<'NODE'
           const cloud = require('./cloudfunctions/login/node_modules/wx-server-sdk');
+          const lodashAlias = require(
+            './cloudfunctions/login/node_modules/@cloudbase/database/node_modules/lodash.set'
+          );
           cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
           const db = cloud.database();
           if (!db || !db.command || typeof cloud.getWXContext !== 'function') {
             throw new Error('wx-server-sdk initialization failed');
           }
+          if (lodashAlias.VERSION !== '4.18.1' || typeof lodashAlias.set !== 'function') {
+            throw new Error('safe lodash.set alias is not installed');
+          }
+          const pollutionProbe = {};
+          lodashAlias.set(pollutionProbe, '__proto__.polluted', true);
+          if (Object.prototype.polluted === true || pollutionProbe.polluted === true) {
+            delete Object.prototype.polluted;
+            throw new Error('lodash.set prototype-pollution mitigation failed');
+          }
           NODE
+          npm audit --omit=dev --audit-level=high --prefix cloudfunctions/login
